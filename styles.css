@@ -876,24 +876,31 @@ h1 {
     overflow: hidden;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
+    background:
+      linear-gradient(180deg, rgba(136, 218, 235, 0.9) 0 27%, transparent 27%),
+      linear-gradient(180deg, #dff8f1 0%, #fff8ea 58%, #ffe7ee 100%);
   }
 
   .topbar {
     position: relative;
     z-index: 5;
-    grid-template-columns: 38px minmax(0, 1fr) 38px;
-    gap: 6px;
-    margin-bottom: 7px;
+    width: 100%;
+    max-width: none;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    gap: 7px;
+    margin: 0 0 8px;
     padding-bottom: 0;
   }
 
   .status {
-    gap: 5px;
-    min-height: 40px;
+    gap: 6px;
+    min-height: 42px;
   }
 
   .status__item {
-    padding: 4px 2px;
+    padding: 5px 2px;
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 5px 14px rgba(35, 49, 66, 0.1);
   }
 
   .status__item span {
@@ -901,104 +908,119 @@ h1 {
   }
 
   .status__item strong {
-    font-size: 0.78rem;
+    font-size: 0.84rem;
   }
 
   .icon-button {
-    width: 38px;
-    height: 38px;
-    font-size: 1.05rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.12rem;
+    background: rgba(255, 255, 255, 0.78);
   }
 
   .quest {
+    width: 100%;
+    max-width: none;
+    height: 100%;
     min-height: 0;
     display: grid;
-    grid-template-rows: 92px minmax(0, 1fr);
-    gap: 7px;
+    grid-template-rows: clamp(150px, 28dvh, 220px) minmax(0, 1fr);
+    gap: 0;
+    margin: 0;
   }
 
   .scene {
     min-height: 0;
-    height: 92px;
+    height: auto;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
   }
 
   .wizard {
-    left: 8%;
-    bottom: -20px;
-    transform: scale(0.43);
+    left: 9%;
+    bottom: 2%;
+    transform: scale(0.66);
   }
 
   .wizard.is-casting {
-    transform: scale(0.43) translateY(-8px) rotate(-2deg);
+    transform: scale(0.66) translateY(-8px) rotate(-2deg);
   }
 
   .sprite {
-    left: 54%;
-    top: 14%;
-    width: 42px;
-    height: 42px;
-    font-size: 1.35rem;
+    left: 60%;
+    top: 18%;
+    width: 58px;
+    height: 58px;
+    font-size: 1.85rem;
   }
 
   .magic-item {
-    width: 28px;
-    height: 28px;
-    font-size: 1rem;
+    width: 38px;
+    height: 38px;
+    font-size: 1.25rem;
   }
 
   .challenge {
     min-height: 0;
-    padding: 10px;
-    gap: 7px;
-    grid-template-rows: auto auto minmax(58px, 0.55fr) auto auto;
+    padding: 10px 0 0;
+    gap: 8px;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    grid-template-rows: auto auto minmax(76px, 1fr) auto auto;
     overflow: hidden;
   }
 
   .helper {
-    min-height: 34px;
-    padding: 7px 9px;
-    font-size: 0.82rem;
-    line-height: 1.25;
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 0.88rem;
+    line-height: 1.3;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 5px 14px rgba(35, 49, 66, 0.09);
   }
 
   .question {
-    min-height: 62px;
-    font-size: clamp(2rem, 13vw, 3.2rem);
+    min-height: 74px;
+    font-size: clamp(2.35rem, 15vw, 4rem);
+    background: rgba(255, 248, 234, 0.95);
   }
 
   .visual-aid {
     min-height: 0;
-    padding: 7px;
-    gap: 4px;
+    padding: 9px;
+    gap: 5px;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.54);
   }
 
   .dot {
-    width: 13px;
-    height: 13px;
+    width: 16px;
+    height: 16px;
   }
 
   .group {
-    min-width: 36px;
-    min-height: 28px;
-    padding: 3px;
-    gap: 3px;
+    min-width: 44px;
+    min-height: 34px;
+    padding: 4px;
+    gap: 4px;
   }
 
   .answers {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 7px;
+    gap: 8px;
   }
 
   .answer {
-    min-height: 56px;
-    font-size: 1.55rem;
+    min-height: 66px;
+    font-size: 1.85rem;
   }
 
   .feedback {
-    min-height: 30px;
-    font-size: 0.86rem;
-    line-height: 1.25;
+    min-height: 34px;
+    font-size: 0.92rem;
+    line-height: 1.28;
   }
 
   .result {
@@ -1109,42 +1131,42 @@ h1 {
   }
 
   .quest {
-    grid-template-rows: 72px minmax(0, 1fr);
+    grid-template-rows: clamp(112px, 24dvh, 155px) minmax(0, 1fr);
   }
 
   .scene {
-    height: 72px;
+    height: auto;
   }
 
   .wizard {
-    bottom: -36px;
-    transform: scale(0.34);
+    bottom: -10px;
+    transform: scale(0.5);
   }
 
   .wizard.is-casting {
-    transform: scale(0.34) translateY(-8px) rotate(-2deg);
+    transform: scale(0.5) translateY(-8px) rotate(-2deg);
   }
 
   .sprite {
-    width: 34px;
-    height: 34px;
-    font-size: 1.1rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
   }
 
   .challenge {
-    gap: 5px;
-    grid-template-rows: auto auto minmax(42px, 0.45fr) auto auto;
+    gap: 6px;
+    grid-template-rows: auto auto minmax(52px, 1fr) auto auto;
   }
 
   .helper {
-    min-height: 28px;
-    padding: 5px 8px;
-    font-size: 0.76rem;
+    min-height: 32px;
+    padding: 6px 8px;
+    font-size: 0.78rem;
   }
 
   .question {
-    min-height: 54px;
-    font-size: clamp(1.8rem, 12vw, 2.75rem);
+    min-height: 60px;
+    font-size: clamp(2rem, 13vw, 3.1rem);
   }
 
   .visual-aid {
@@ -1152,8 +1174,8 @@ h1 {
   }
 
   .answer {
-    min-height: 48px;
-    font-size: 1.35rem;
+    min-height: 56px;
+    font-size: 1.55rem;
   }
 
   .feedback {
