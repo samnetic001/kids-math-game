@@ -18,6 +18,19 @@ const encouragements = [
   "森林朋友都在為你拍手！"
 ];
 
+const storyMoments = [
+  { icon: "✿", text: "魔法花醒來了！", ruby: "ㄇㄛˊ ㄈㄚˇ ㄏㄨㄚ ㄒㄧㄥˇ ㄌㄞˊ ㄌㄜ˙", className: "is-flower", left: 70, top: 64 },
+  { icon: "✦", text: "星星燈亮起來！", ruby: "ㄒㄧㄥ ㄒㄧㄥ ㄉㄥ ㄌㄧㄤˋ ㄑㄧˇ ㄌㄞˊ", className: "is-lamp", left: 58, top: 38 },
+  { icon: "◆", text: "水晶橋長出來！", ruby: "ㄕㄨㄟˇ ㄐㄧㄥ ㄑㄧㄠˊ ㄓㄤˇ ㄔㄨ ㄌㄞˊ", className: "is-crystal", left: 76, top: 48 },
+  { icon: "⌂", text: "糖果屋開燈了！", ruby: "ㄊㄤˊ ㄍㄨㄛˇ ㄨ ㄎㄞ ㄉㄥ ㄌㄜ˙", className: "is-house", left: 66, top: 24 },
+  { icon: "☘", text: "幸運葉跳舞！", ruby: "ㄒㄧㄥˋ ㄩㄣˋ ㄧㄝˋ ㄊㄧㄠˋ ㄨˇ", className: "is-leaf", left: 48, top: 66 },
+  { icon: "☁", text: "彩色雲朵飄過！", ruby: "ㄘㄞˇ ㄙㄜˋ ㄩㄣˊ ㄉㄨㄛˇ ㄆㄧㄠ ㄍㄨㄛˋ", className: "is-cloud", left: 76, top: 18 },
+  { icon: "♬", text: "森林唱起歌！", ruby: "ㄙㄣ ㄌㄧㄣˊ ㄔㄤˋ ㄑㄧˇ ㄍㄜ", className: "is-music", left: 54, top: 52 },
+  { icon: "☼", text: "陽光灑進森林！", ruby: "ㄧㄤˊ ㄍㄨㄤ ㄙㄚˇ ㄐㄧㄣˋ ㄙㄣ ㄌㄧㄣˊ", className: "is-sun", left: 83, top: 31 },
+  { icon: "◈", text: "寶石泉水閃耀！", ruby: "ㄅㄠˇ ㄕˊ ㄑㄩㄢˊ ㄕㄨㄟˇ ㄕㄢˇ ㄧㄠˋ", className: "is-gem", left: 62, top: 72 },
+  { icon: "★", text: "城堡大門打開！", ruby: "ㄔㄥˊ ㄅㄠˇ ㄉㄚˋ ㄇㄣˊ ㄉㄚˇ ㄎㄞ", className: "is-castle", left: 82, top: 58 }
+];
+
 const hintByType = {
   "+": "可以把兩邊的星星放在一起數一數。",
   "-": "先看全部，再拿走一些，剩下多少呢？",
@@ -58,6 +71,9 @@ const els = {
   answerButtons: document.querySelector("#answerButtons"),
   feedbackText: document.querySelector("#feedbackText"),
   magicItems: document.querySelector("#magicItems"),
+  storyStage: document.querySelector("#storyStage"),
+  spellTrail: document.querySelector("#spellTrail"),
+  storyBubble: document.querySelector("#storyBubble"),
   resultText: document.querySelector("#resultText"),
   resultStars: document.querySelector("#resultStars")
 };
@@ -216,6 +232,9 @@ function startGame() {
   state.locked = false;
   state.questions = Array.from({ length: 10 }, () => makeQuestion(state.mode, state.difficulty));
   els.magicItems.innerHTML = "";
+  els.storyStage.innerHTML = "";
+  els.spellTrail.innerHTML = "";
+  els.storyBubble.innerHTML = "";
   showScreen("game");
   renderQuestion();
 }
@@ -236,6 +255,7 @@ function renderQuestion() {
   els.helperText.innerHTML = ruby("星星精靈說：試試看這一題！", "ㄒㄧㄥ ㄒㄧㄥ ㄐㄧㄥ ㄌㄧㄥˊ ㄕㄨㄛ ㄕˋ ㄕˋ ㄎㄢˋ ㄓㄜˋ ㄧˋ ㄊㄧˊ");
   els.questionText.textContent = question.text;
   els.feedbackText.textContent = "";
+  els.storyBubble.classList.remove("is-showing");
   renderVisualAid(question, state.difficulty === "easy");
   els.answerButtons.innerHTML = question.choices.map((choice) => `
     <button class="answer" type="button" data-answer="${choice}">${choice}</button>
@@ -299,7 +319,7 @@ function answerQuestion(selected, button) {
     els.feedbackText.textContent = pick(encouragements);
     els.helperText.innerHTML = ruby("答對了！魔法森林更亮了。", "ㄉㄚˊ ㄉㄨㄟˋ ㄌㄜ˙ ㄇㄛˊ ㄈㄚˇ ㄙㄣ ㄌㄧㄣˊ ㄍㄥˋ ㄌㄧㄤˋ ㄌㄜ˙");
     playTone("right");
-    addMagicItem();
+    playStoryMoment();
     document.querySelector(".wizard").classList.add("is-casting");
   } else {
     button.classList.add("is-wrong");
@@ -318,15 +338,55 @@ function answerQuestion(selected, button) {
     } else {
       renderQuestion();
     }
-  }, isCorrect ? 950 : 1800);
+  }, isCorrect ? 1500 : 1800);
 }
 
-function addMagicItem() {
+function playStoryMoment() {
+  const moment = storyMoments[(state.stars - 1) % storyMoments.length];
+  const scene = document.querySelector(".scene");
+  const sprite = document.querySelector(".sprite");
+
+  scene.classList.remove("is-story-glow");
+  sprite.classList.remove("is-helping");
+  void scene.offsetWidth;
+  scene.classList.add("is-story-glow");
+  sprite.classList.add("is-helping");
+
+  els.storyBubble.innerHTML = ruby(moment.text, moment.ruby);
+  els.storyBubble.classList.add("is-showing");
+  addSpellTrail(moment);
+  addStoryItem(moment);
+  addMagicItem(moment);
+}
+
+function addSpellTrail(moment) {
+  els.spellTrail.innerHTML = "";
+  for (let i = 0; i < 7; i++) {
+    const spark = document.createElement("span");
+    spark.className = "spell-spark";
+    spark.textContent = pick(["✦", "•", "★"]);
+    spark.style.setProperty("--i", i);
+    spark.style.setProperty("--end-x", `${moment.left - 22 + rand(-4, 4)}vw`);
+    spark.style.setProperty("--end-y", `${moment.top - 48 + rand(-4, 4)}vh`);
+    els.spellTrail.appendChild(spark);
+  }
+}
+
+function addStoryItem(moment) {
+  const item = document.createElement("span");
+  item.className = `story-item ${moment.className}`;
+  item.textContent = moment.icon;
+  item.style.left = `${moment.left}%`;
+  item.style.top = `${moment.top}%`;
+  els.storyStage.appendChild(item);
+}
+
+function addMagicItem(moment = null) {
   const item = document.createElement("span");
   item.className = "magic-item";
-  item.textContent = pick(["✦", "★", "✿", "◆"]);
-  item.style.left = `${rand(42, 82)}%`;
-  item.style.top = `${rand(24, 74)}%`;
+  item.textContent = moment?.icon || pick(["✦", "★", "✿", "◆"]);
+  item.style.left = `${moment ? moment.left : rand(42, 82)}%`;
+  item.style.top = `${moment ? moment.top : rand(24, 74)}%`;
   els.magicItems.appendChild(item);
 }
 
