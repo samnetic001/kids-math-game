@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>魔法森林數學冒險</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero" id="homeScreen">
+        <div class="hero__image" aria-hidden="true"></div>
+        <div class="hero__shade"></div>
+        <div class="hero__content">
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true">✦</span>
+            <span><ruby>魔法森林<rt>ㄇㄛˊ ㄈㄚˇ ㄙㄣ ㄌㄧㄣˊ</rt></ruby></span>
+          </div>
+          <h1>
+            <ruby>數學冒險<rt>ㄕㄨˋ ㄒㄩㄝˊ ㄇㄠˋ ㄒㄧㄢˇ</rt></ruby>
+          </h1>
+          <p class="intro">
+            <ruby>和小魔法師女孩、星星精靈一起收集星光，用加減乘除點亮童話森林。</ruby>
+          </p>
+
+          <div class="setup" aria-label="遊戲設定">
+            <div class="setup__group">
+              <h2><ruby>選擇玩法<rt>ㄒㄩㄢˇ ㄗㄜˊ ㄨㄢˊ ㄈㄚˇ</rt></ruby></h2>
+              <div class="mode-grid" id="modeButtons"></div>
+            </div>
+
+            <div class="setup__row">
+              <div class="setup__group">
+                <h2><ruby>難度<rt>ㄋㄢˊ ㄉㄨˋ</rt></ruby></h2>
+                <div class="segmented" id="difficultyButtons"></div>
+              </div>
+              <div class="setup__group toggles">
+                <button class="toggle is-on" id="bopomofoToggle" type="button" aria-pressed="true">
+                  <span class="toggle__icon">ㄅ</span>
+                  <span><ruby>注音<rt>ㄓㄨˋ ㄧㄣ</rt></ruby></span>
+                </button>
+                <button class="toggle is-on" id="soundToggle" type="button" aria-pressed="true">
+                  <span class="toggle__icon">♪</span>
+                  <span><ruby>音效<rt>ㄧㄣ ㄒㄧㄠˋ</rt></ruby></span>
+                </button>
+              </div>
+            </div>
+
+            <button class="primary-action" id="startButton" type="button">
+              <span aria-hidden="true">★</span>
+              <span><ruby>開始冒險<rt>ㄎㄞ ㄕˇ ㄇㄠˋ ㄒㄧㄢˇ</rt></ruby></span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="game hidden" id="gameScreen" aria-live="polite">
+        <div class="topbar">
+          <button class="icon-button" id="backButton" type="button" aria-label="回到首頁">⌂</button>
+          <div class="status">
+            <div class="status__item">
+              <span><ruby>題目<rt>ㄊㄧˊ ㄇㄨˋ</rt></ruby></span>
+              <strong id="questionProgress">1 / 10</strong>
+            </div>
+            <div class="status__item">
+              <span><ruby>星星<rt>ㄒㄧㄥ ㄒㄧㄥ</rt></ruby></span>
+              <strong id="starCount">0</strong>
+            </div>
+            <div class="status__item">
+              <span><ruby>難度<rt>ㄋㄢˊ ㄉㄨˋ</rt></ruby></span>
+              <strong id="difficultyLabel">簡單</strong>
+            </div>
+          </div>
+          <button class="icon-button" id="gameSoundToggle" type="button" aria-label="切換音效">♪</button>
+        </div>
+
+        <div class="quest">
+          <div class="scene">
+            <div class="scene__sky"></div>
+            <div class="scene__path"></div>
+            <div class="wizard" aria-label="小魔法師女孩">
+              <div class="wizard__hat"></div>
+              <div class="wizard__face"></div>
+              <div class="wizard__body"></div>
+              <div class="wizard__wand"></div>
+            </div>
+            <div class="sprite" aria-label="星星精靈">✦</div>
+            <div class="magic-items" id="magicItems"></div>
+          </div>
+
+          <article class="challenge">
+            <p class="helper" id="helperText">
+              <ruby>星星精靈準備好囉！<rt>ㄒㄧㄥ ㄒㄧㄥ ㄐㄧㄥ ㄌㄧㄥˊ ㄓㄨㄣˇ ㄅㄟˋ ㄏㄠˇ ㄌㄨㄛ˙</rt></ruby>
+            </p>
+            <div class="question" id="questionText">3 + 4 = ?</div>
+            <div class="visual-aid" id="visualAid" aria-label="題目提示"></div>
+            <div class="answers" id="answerButtons"></div>
+            <div class="feedback" id="feedbackText"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="result hidden" id="resultScreen">
+        <div class="result__art">
+          <div class="result__castle"></div>
+          <div class="result__stars" id="resultStars"></div>
+        </div>
+        <h2><ruby>森林被點亮了！<rt>ㄙㄣ ㄌㄧㄣˊ ㄅㄟˋ ㄉㄧㄢˇ ㄌㄧㄤˋ ㄌㄜ˙</rt></ruby></h2>
+        <p id="resultText"></p>
+        <div class="result__actions">
+          <button class="secondary-action" id="playAgainButton" type="button">
+            <ruby>再玩一次<rt>ㄗㄞˋ ㄨㄢˊ ㄧˊ ㄘˋ</rt></ruby>
+          </button>
+          <button class="primary-action compact" id="homeButton" type="button">
+            <ruby>回首頁<rt>ㄏㄨㄟˊ ㄕㄡˇ ㄧㄝˋ</rt></ruby>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
