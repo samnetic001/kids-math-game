@@ -224,6 +224,7 @@ function showScreen(name) {
   els.home.classList.toggle("hidden", name !== "home");
   els.game.classList.toggle("hidden", name !== "game");
   els.result.classList.toggle("hidden", name !== "result");
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
 function renderQuestion() {
